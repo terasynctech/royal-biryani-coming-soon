@@ -1,200 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#092b22">
-  <meta name="description" content="Royal Biryani is coming soon to Ranchi. Something royal is cooking.">
-  <title>Royal Biryani | Coming Soon to Ranchi</title>
-  <link rel="preconnect" href="https://images.unsplash.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --green: #092b22;
-      --green2: #123d30;
-      --gold: #d8b56b;
-      --cream: #f7f0df;
-      --white: #fffaf0;
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; width: 100%; height: 100%; background: var(--green); color: var(--white); font-family: "DM Sans", sans-serif; }
-    body { overflow: hidden; }
-    .slides { height: 100svh; width: 100%; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-    .slide {
-      min-height: 100svh; position: relative; display: grid; place-items: center;
-      padding: 42px 7vw; scroll-snap-align: start; isolation: isolate; overflow: hidden;
-      background: var(--green);
-    }
-    .slide::before {
-      content: ""; position: absolute; inset: 0; z-index: -2;
-      background-image: var(--photo); background-size: cover; background-position: center;
-      transform: scale(1.04); animation: slowZoom 16s ease-in-out infinite alternate;
-    }
-    .slide::after {
-      content: ""; position: absolute; inset: 0; z-index: -1;
-      background: linear-gradient(90deg, rgba(4,24,19,.94) 0%, rgba(5,30,23,.78) 48%, rgba(5,25,20,.36) 100%);
-    }
-    .slide:nth-child(2)::after { background: linear-gradient(90deg, rgba(4,24,19,.92), rgba(4,24,19,.48)); }
-    .slide:nth-child(3)::after { background: linear-gradient(0deg, rgba(4,24,19,.88), rgba(4,24,19,.35)); }
-    .content { width: min(980px, 100%); position: relative; z-index: 1; animation: rise .9s both; }
-    .brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: clamp(42px, 9vh, 90px); }
-    .crown { width: 48px; height: 48px; border: 1px solid var(--gold); border-radius: 50%; display: grid; place-items: center; color: var(--gold); font-size: 25px; }
-    .brand-name { font-family: "Cormorant Garamond", serif; font-size: 27px; letter-spacing: .13em; line-height: 1; color: var(--cream); }
-    .brand-sub { display: block; margin-top: 6px; color: var(--gold); font-size: 9px; letter-spacing: .32em; text-transform: uppercase; }
-    .eyebrow { color: var(--gold); font-size: 11px; letter-spacing: .34em; text-transform: uppercase; font-weight: 700; margin: 0 0 18px; }
-    h1, h2 { font-family: "Cormorant Garamond", serif; font-weight: 600; line-height: .92; margin: 0; letter-spacing: -.025em; }
-    h1 { font-size: clamp(64px, 10vw, 132px); max-width: 900px; }
-    h2 { font-size: clamp(54px, 8vw, 100px); max-width: 800px; }
-    .gold { color: var(--gold); }
-    .lead { color: rgba(255,250,240,.84); font-size: clamp(15px, 1.6vw, 19px); line-height: 1.8; max-width: 510px; margin: 26px 0 0; }
-    .rule { width: 72px; height: 1px; background: var(--gold); margin: 28px 0; }
-    .dish-line { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-    .dish-pill { border: 1px solid rgba(216,181,107,.65); color: var(--cream); padding: 11px 17px; border-radius: 30px; font-size: 12px; letter-spacing: .08em; }
-    .cta {
-      display: inline-flex; align-items: center; justify-content: center; margin-top: 34px; padding: 15px 25px;
-      background: var(--gold); color: #10281f; text-decoration: none; font-size: 12px; font-weight: 700;
-      letter-spacing: .12em; text-transform: uppercase; border-radius: 2px; transition: .25s ease;
-    }
-    .cta:hover { background: var(--cream); transform: translateY(-2px); }
-    .small-note { color: rgba(255,250,240,.65); font-size: 12px; margin-top: 18px; letter-spacing: .06em; }
-    .center { text-align: center; margin-inline: auto; }
-    .center .lead { margin-inline: auto; }
-    .center .rule { margin-inline: auto; }
-    .center .dish-line { justify-content: center; }
-    .final-mark { font-family: "Cormorant Garamond", serif; font-size: clamp(34px, 5vw, 58px); letter-spacing: .12em; color: var(--cream); margin: 0 0 24px; }
-    .final-mark span { color: var(--gold); }
-    .dots { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 5; display: grid; gap: 12px; }
-    .dots a { width: 8px; height: 8px; border: 1px solid var(--gold); border-radius: 50%; display: block; opacity: .7; }
-    .dots a:hover, .dots a.active { background: var(--gold); opacity: 1; }
-    .contact { position: fixed; bottom: 22px; right: 28px; z-index: 5; color: var(--cream); font-size: 11px; letter-spacing: .12em; text-decoration: none; opacity: .88; }
-    .contact:hover { color: var(--gold); }
-    .scroll-hint { position: absolute; bottom: 28px; left: 7vw; color: rgba(255,250,240,.68); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
-    @keyframes slowZoom { from { transform: scale(1.04); } to { transform: scale(1.13); } }
-    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-    @media (max-width: 640px) {
-      .slide { padding: 32px 25px 60px; }
-      .slide::after { background: linear-gradient(90deg, rgba(4,24,19,.91), rgba(4,24,19,.62)); }
-      .brand { margin-bottom: 54px; }
-      .brand-name { font-size: 23px; }
-      .crown { width: 42px; height: 42px; }
-      .dots { right: 13px; }
-      .contact { right: 16px; bottom: 14px; font-size: 10px; }
-      .scroll-hint { left: 25px; bottom: 18px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#092b22">
+<meta name="description" content="Royal Biryani is coming soon to Ranchi. Something royal is cooking.">
+<title>Royal Biryani | A Royal Taste is Coming</title>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#092b22;--green2:#123d30;--gold:#d8b56b;--cream:#f7f0df;--white:#fffaf0}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--green);color:var(--white);font-family:"DM Sans",sans-serif}
+.deck{position:relative;width:100%;height:100svh;overflow:hidden;background:var(--green)}
+.slide{position:absolute;inset:0;display:flex;align-items:center;padding:7vw 10vw;opacity:0;visibility:hidden;transform:translateX(7%);transition:transform 1s cubic-bezier(.22,.75,.2,1),opacity .8s ease,visibility .8s;isolation:isolate;overflow:hidden}
+.slide:nth-child(even){transform:translateY(7%)}
+.slide.active{opacity:1;visibility:visible;transform:translate(0);z-index:2}
+.slide::before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--photo);background-position:center;background-size:cover;transform:scale(1.12);transition:transform 6s ease}
+.slide.active::before{transform:scale(1.02)}
+.slide::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(3,22,17,.94),rgba(4,28,21,.76) 48%,rgba(4,25,19,.25))}
+.slide:nth-child(3)::after{background:linear-gradient(90deg,rgba(3,22,17,.88),rgba(4,28,21,.54) 55%,rgba(4,25,19,.22))}
+.slide:nth-child(4)::after{background:linear-gradient(0deg,rgba(3,22,17,.86),rgba(4,28,21,.4))}
+.content{width:min(900px,100%);position:relative;z-index:1}
+.content>*{opacity:0;transform:translateY(24px)}
+.active .content>*{animation:reveal .75s ease forwards}
+.active .content>*:nth-child(1){animation-delay:.12s}
+.active .content>*:nth-child(2){animation-delay:.25s}
+.active .content>*:nth-child(3){animation-delay:.38s}
+.active .content>*:nth-child(4){animation-delay:.51s}
+.active .content>*:nth-child(5){animation-delay:.64s}
+.active .content>*:nth-child(6){animation-delay:.77s}
+@keyframes reveal{to{opacity:1;transform:translateY(0)}}
+.brand{display:flex;align-items:center;gap:13px;margin-bottom:clamp(36px,8vh,76px)}
+.crown{width:48px;height:48px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:25px}
+.brand-name{font-family:"Cormorant Garamond",serif;font-size:27px;letter-spacing:.14em;color:var(--cream);line-height:1}
+.brand-sub{display:block;margin-top:6px;color:var(--gold);font-size:9px;letter-spacing:.3em;text-transform:uppercase}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;margin:0 0 18px}
+h1,h2{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:.92;letter-spacing:-.025em;margin:0}
+h1{font-size:clamp(64px,10vw,130px);max-width:900px}
+h2{font-size:clamp(54px,8vw,100px);max-width:800px}
+.gold{color:var(--gold)}
+.lead{color:rgba(255,250,240,.86);font-size:clamp(15px,1.6vw,19px);line-height:1.8;max-width:520px;margin:25px 0 0}
+.rule{width:76px;height:1px;background:var(--gold);margin:28px 0}
+.pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.pill{border:1px solid rgba(216,181,107,.7);color:var(--cream);padding:11px 17px;border-radius:30px;font-size:11px;letter-spacing:.1em}
+.cta{display:inline-flex;align-items:center;gap:10px;margin-top:32px;padding:15px 24px;background:var(--gold);color:#10281f;text-decoration:none;font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;border-radius:2px;transition:transform .25s,background .25s}
+.cta:hover{background:var(--cream);transform:translateY(-3px)}
+.center{text-align:center;margin-inline:auto}
+.center .lead,.center .rule{margin-left:auto;margin-right:auto}
+.center .pills{justify-content:center}
+.final-brand{font-family:"Cormorant Garamond",serif;font-size:clamp(30px,5vw,56px);letter-spacing:.13em;color:var(--cream);margin-bottom:24px}
+.final-brand span{color:var(--gold)}
+.dots{position:fixed;right:30px;top:50%;transform:translateY(-50%);z-index:8;display:grid;gap:13px}
+.dot{width:9px;height:9px;border:1px solid var(--gold);border-radius:50%;background:transparent;padding:0;cursor:pointer;opacity:.7;transition:all .3s}
+.dot.active{background:var(--gold);opacity:1;transform:scale(1.25)}
+.whatsapp{position:fixed;right:28px;bottom:22px;z-index:8;color:var(--cream);text-decoration:none;font-size:11px;letter-spacing:.12em}
+.whatsapp:hover{color:var(--gold)}
+.progress{position:fixed;left:0;top:0;height:3px;width:0;background:var(--gold);z-index:10;transition:width .15s linear}
+.counter{position:fixed;left:30px;bottom:22px;z-index:8;color:rgba(255,250,240,.65);font-size:10px;letter-spacing:.2em}
+
+.menu-slide::after{background:linear-gradient(110deg,rgba(3,22,17,.96),rgba(4,28,21,.82) 48%,rgba(4,25,19,.72))}
+.menu-content{width:min(1120px,100%)}
+.menu-photo{display:block;width:min(760px,100%);max-height:48vh;object-fit:cover;object-position:center;border:1px solid rgba(216,181,107,.55);border-radius:8px;box-shadow:0 24px 70px rgba(0,0,0,.42);margin-top:22px}
+.menu-content .lead{margin-top:8px}
+@media(max-width:640px){.menu-photo{max-height:42vh;margin-top:16px}.menu-content .lead{font-size:14px}}
+
+@media(max-width:640px){
+.slide{padding:34px 27px 70px}
+.slide::after{background:linear-gradient(90deg,rgba(3,22,17,.92),rgba(4,28,21,.62))}
+.brand{margin-bottom:52px}.brand-name{font-size:22px}.crown{width:42px;height:42px}
+.dots{right:14px}.whatsapp{right:15px;bottom:15px;font-size:9px}.counter{left:18px;bottom:16px}
+}
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
 </head>
 <body>
-  <nav class="dots" aria-label="Page sections">
-    <a href="#welcome" class="active" aria-label="Welcome"></a>
-    <a href="#menu" aria-label="Our biryani"></a>
-    <a href="#launch" aria-label="Coming soon"></a>
-  </nav>
-  <a class="contact" href="https://wa.me/917549126937" target="_blank" rel="noopener">WHATSAPP · 7549126937</a>
+<div class="progress" id="progress"></div>
+<main class="deck" id="deck" aria-label="Royal Biryani presentation">
+<section class="slide active" style="--photo:url('https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=2000&q=85')" aria-label="Welcome">
+<div class="content">
+<div class="brand"><div class="crown">♛</div><div><div class="brand-name">ROYAL BIRYANI</div><span class="brand-sub">A royal taste is coming</span></div></div>
+<p class="eyebrow">A new food experience for Ranchi</p>
+<h1>Something<br><span class="gold">Royal</span> is<br>cooking.</h1>
+<div class="rule"></div>
+<p class="lead">Aromatic rice, rich flavours and the joy of freshly prepared biryani. Get ready to welcome something special.</p>
+<a class="cta" href="https://wa.me/917549126937?text=Hello%20Royal%20Biryani%2C%20please%20inform%20me%20when%20you%20launch." target="_blank" rel="noopener">Keep me informed <span>↗</span></a>
+</div></section>
+<section class="slide" style="--photo:url('https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=2000&q=85')" aria-label="Chicken biryani">
+<div class="content">
+<p class="eyebrow">Made for biryani lovers</p>
+<h2>Chicken<br><span class="gold">Biryani.</span></h2>
+<div class="rule"></div>
+<p class="lead">A comforting classic, layered with fragrant rice and the flavours biryani lovers look forward to.</p>
+<div class="pills"><span class="pill">FRESHLY PREPARED</span><span class="pill">FULL OF FLAVOUR</span></div>
+</div></section>
 
-  <main class="slides" id="slides">
-    <section class="slide" id="welcome" style="--photo:url('https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=2000&q=85')">
-      <div class="content">
-        <div class="brand">
-          <div class="crown">♛</div>
-          <div><div class="brand-name">ROYAL BIRYANI</div><span class="brand-sub">A royal taste is coming</span></div>
-        </div>
-        <p class="eyebrow">A new food experience for Ranchi</p>
-        <h1>Something<br><span class="gold">Royal</span> is<br>cooking.</h1>
-        <div class="rule"></div>
-        <p class="lead">Aromatic rice, rich flavours and the joy of a freshly prepared biryani. Get ready to welcome something special.</p>
-        <a class="cta" href="https://wa.me/917549126937?text=Hello%20Royal%20Biryani%2C%20please%20inform%20me%20when%20you%20launch." target="_blank" rel="noopener">Keep me informed</a>
-      </div>
-      <div class="scroll-hint">Scroll to discover <span class="gold">↓</span></div>
-    </section>
+<section class="slide menu-slide" aria-label="Our biryani">
+<div class="content menu-content">
+<p class="eyebrow">Prepared with care</p>
+<h2>Our <span class="gold">Biryani.</span></h2>
+<div class="rule"></div>
+<p class="lead">Chicken Biryani &amp; Mutton Biryani</p>
+<img class="menu-photo" src="assets/royal-biryani-menu.jpg" alt="Royal Biryani takeaway trays with fragrant rice, meat and boiled eggs">
+</div></section>
 
-    <section class="slide" id="menu" style="--photo:url('https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=2000&q=85')">
-      <div class="content">
-        <p class="eyebrow">Made for biryani lovers</p>
-        <h2>Two classics.<br><span class="gold">One royal</span><br>craving.</h2>
-        <p class="lead">From comforting chicken biryani to the indulgent richness of mutton biryani, our menu is being prepared with care.</p>
-        <div class="dish-line">
-          <span class="dish-pill">CHICKEN BIRYANI</span>
-          <span class="dish-pill">MUTTON BIRYANI</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" id="launch" style="--photo:url('https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=2000&q=85')">
-      <div class="content center">
-        <div class="final-mark"><span>♛</span> ROYAL BIRYANI</div>
-        <p class="eyebrow">Ranchi, get ready</p>
-        <h2>COMING<br><span class="gold">SOON.</span></h2>
-        <div class="rule"></div>
-        <p class="lead">Freshly prepared. Deliciously served. A little more royal, every time.</p>
-        <a class="cta" href="https://wa.me/917549126937?text=Hello%20Royal%20Biryani%2C%20please%20notify%20me%20when%20you%20launch." target="_blank" rel="noopener">Notify me on WhatsApp</a>
-        <p class="small-note">For updates: +91 75491 26937</p>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    const slider = document.getElementById('slides');
-    const sections = [...document.querySelectorAll('.slide')];
-    const dots = [...document.querySelectorAll('.dots a')];
-    let current = 0;
-    let autoTimer;
-    let touchStartY = 0;
-
-    function showSlide(index) {
-      current = (index + sections.length) % sections.length;
-      sections[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
-    }
-
-    function startAutoSlide() {
-      clearInterval(autoTimer);
-      autoTimer = setInterval(() => showSlide(current + 1), 6500);
-    }
-
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', event => {
-        event.preventDefault();
-        showSlide(i);
-        startAutoSlide();
-      });
-    });
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          current = sections.indexOf(entry.target);
-          dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
-        }
-      });
-    }, { root: slider, threshold: 0.6 });
-    sections.forEach(section => observer.observe(section));
-
-    // Pause while the visitor interacts, then resume the automatic presentation.
-    slider.addEventListener('wheel', startAutoSlide, { passive: true });
-    slider.addEventListener('touchstart', event => { touchStartY = event.touches[0].clientY; clearInterval(autoTimer); }, { passive: true });
-    slider.addEventListener('touchend', event => {
-      const movement = touchStartY - event.changedTouches[0].clientY;
-      if (Math.abs(movement) > 35) {
-        setTimeout(() => {
-          const nearest = sections.reduce((best, section, i) =>
-            Math.abs(section.getBoundingClientRect().top) < Math.abs(sections[best].getBoundingClientRect().top) ? i : best, 0);
-          current = nearest;
-          dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
-          startAutoSlide();
-        }, 450);
-      } else startAutoSlide();
-    }, { passive: true });
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) clearInterval(autoTimer);
-      else startAutoSlide();
-    });
-    startAutoSlide();
-  </script>
+<section class="slide" style="--photo:url('https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=2000&q=85')" aria-label="Mutton biryani">
+<div class="content">
+<p class="eyebrow">For the true biryani enthusiast</p>
+<h2>Mutton<br><span class="gold">Biryani.</span></h2>
+<div class="rule"></div>
+<p class="lead">A rich, satisfying biryani experience, prepared with care for those who love the timeless taste of mutton.</p>
+<div class="pills"><span class="pill">RICH & AROMATIC</span><span class="pill">MADE WITH CARE</span></div>
+</div></section>
+<section class="slide" style="--photo:url('https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=2000&q=85')" aria-label="Coming soon to Ranchi">
+<div class="content center">
+<div class="final-brand"><span>♛</span> ROYAL BIRYANI</div>
+<p class="eyebrow">Ranchi, get ready</p>
+<h2>COMING<br><span class="gold">SOON.</span></h2>
+<div class="rule"></div>
+<p class="lead">Freshly prepared. Deliciously served. A little more royal, every time.</p>
+<a class="cta" href="https://wa.me/917549126937?text=Hello%20Royal%20Biryani%2C%20please%20notify%20me%20when%20you%20launch." target="_blank" rel="noopener">Notify me on WhatsApp <span>↗</span></a>
+</div></section>
+</main>
+<nav class="dots" aria-label="Choose slide">
+<button class="dot active" aria-label="Slide 1"></button><button class="dot" aria-label="Slide 2"></button><button class="dot" aria-label="Slide 3"></button><button class="dot" aria-label="Slide 4"></button><button class="dot" aria-label="Slide 5"></button>
+</nav>
+<a class="whatsapp" href="https://wa.me/917549126937" target="_blank" rel="noopener">WHATSAPP · 7549126937 ↗</a>
+<div class="counter" id="counter">01 / 04</div>
+<script>
+(() => {
+ const slides=[...document.querySelectorAll('.slide')];
+ const dots=[...document.querySelectorAll('.dot')];
+ const progress=document.getElementById('progress');
+ const counter=document.getElementById('counter');
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const HOLD=5000;
+ let current=0,started=Date.now(),timer=null,raf=null,paused=false;
+ function render(i){
+   current=(i+slides.length)%slides.length;
+   slides.forEach((s,n)=>s.classList.toggle('active',n===current));
+   dots.forEach((d,n)=>d.classList.toggle('active',n===current));
+   counter.textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+   started=Date.now(); progress.style.width='0%';
+ }
+ function next(){render(current+1)}
+ function tick(){
+   if(!paused&&!reduced){
+     const pct=Math.min(100,((Date.now()-started)/HOLD)*100);
+     progress.style.width=pct+'%';
+     if(pct>=100) next();
+   }
+   raf=requestAnimationFrame(tick);
+ }
+ dots.forEach((dot,i)=>dot.addEventListener('click',()=>render(i)));
+ document.addEventListener('visibilitychange',()=>{paused=document.hidden;started=Date.now()});
+ document.addEventListener('keydown',e=>{
+   if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();render(current+1)}
+   if(e.key==='ArrowLeft'){e.preventDefault();render(current-1)}
+ });
+ let touchX=0;
+ document.addEventListener('touchstart',e=>{touchX=e.changedTouches[0].clientX},{passive:true});
+ document.addEventListener('touchend',e=>{
+   const dx=e.changedTouches[0].clientX-touchX;
+   if(Math.abs(dx)>55)render(current+(dx<0?1:-1));
+ },{passive:true});
+ if(!reduced) tick();
+})();
+</script>
 </body>
 </html>
