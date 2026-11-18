@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#092b22">
+  <meta name="description" content="Royal Biryani is coming soon to Ranchi. Something royal is cooking.">
+  <title>Royal Biryani | Coming Soon to Ranchi</title>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #092b22;
+      --green2: #123d30;
+      --gold: #d8b56b;
+      --cream: #f7f0df;
+      --white: #fffaf0;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; background: var(--green); color: var(--white); font-family: "DM Sans", sans-serif; }
+    body { overflow: hidden; }
+    .slides { height: 100svh; width: 100%; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+    .slide {
+      min-height: 100svh; position: relative; display: grid; place-items: center;
+      padding: 42px 7vw; scroll-snap-align: start; isolation: isolate; overflow: hidden;
+      background: var(--green);
+    }
+    .slide::before {
+      content: ""; position: absolute; inset: 0; z-index: -2;
+      background-image: var(--photo); background-size: cover; background-position: center;
+      transform: scale(1.04); animation: slowZoom 16s ease-in-out infinite alternate;
+    }
+    .slide::after {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(90deg, rgba(4,24,19,.94) 0%, rgba(5,30,23,.78) 48%, rgba(5,25,20,.36) 100%);
+    }
+    .slide:nth-child(2)::after { background: linear-gradient(90deg, rgba(4,24,19,.92), rgba(4,24,19,.48)); }
+    .slide:nth-child(3)::after { background: linear-gradient(0deg, rgba(4,24,19,.88), rgba(4,24,19,.35)); }
+    .content { width: min(980px, 100%); position: relative; z-index: 1; animation: rise .9s both; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: clamp(42px, 9vh, 90px); }
+    .crown { width: 48px; height: 48px; border: 1px solid var(--gold); border-radius: 50%; display: grid; place-items: center; color: var(--gold); font-size: 25px; }
+    .brand-name { font-family: "Cormorant Garamond", serif; font-size: 27px; letter-spacing: .13em; line-height: 1; color: var(--cream); }
+    .brand-sub { display: block; margin-top: 6px; color: var(--gold); font-size: 9px; letter-spacing: .32em; text-transform: uppercase; }
+    .eyebrow { color: var(--gold); font-size: 11px; letter-spacing: .34em; text-transform: uppercase; font-weight: 700; margin: 0 0 18px; }
+    h1, h2 { font-family: "Cormorant Garamond", serif; font-weight: 600; line-height: .92; margin: 0; letter-spacing: -.025em; }
+    h1 { font-size: clamp(64px, 10vw, 132px); max-width: 900px; }
+    h2 { font-size: clamp(54px, 8vw, 100px); max-width: 800px; }
+    .gold { color: var(--gold); }
+    .lead { color: rgba(255,250,240,.84); font-size: clamp(15px, 1.6vw, 19px); line-height: 1.8; max-width: 510px; margin: 26px 0 0; }
+    .rule { width: 72px; height: 1px; background: var(--gold); margin: 28px 0; }
+    .dish-line { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .dish-pill { border: 1px solid rgba(216,181,107,.65); color: var(--cream); padding: 11px 17px; border-radius: 30px; font-size: 12px; letter-spacing: .08em; }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center; margin-top: 34px; padding: 15px 25px;
+      background: var(--gold); color: #10281f; text-decoration: none; font-size: 12px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; border-radius: 2px; transition: .25s ease;
+    }
+    .cta:hover { background: var(--cream); transform: translateY(-2px); }
+    .small-note { color: rgba(255,250,240,.65); font-size: 12px; margin-top: 18px; letter-spacing: .06em; }
+    .center { text-align: center; margin-inline: auto; }
+    .center .lead { margin-inline: auto; }
+    .center .rule { margin-inline: auto; }
+    .center .dish-line { justify-content: center; }
+    .final-mark { font-family: "Cormorant Garamond", serif; font-size: clamp(34px, 5vw, 58px); letter-spacing: .12em; color: var(--cream); margin: 0 0 24px; }
+    .final-mark span { color: var(--gold); }
+    .dots { position: fixed; right: 28px; top: 50%; transform: translateY(-50%); z-index: 5; display: grid; gap: 12px; }
+    .dots a { width: 8px; height: 8px; border: 1px solid var(--gold); border-radius: 50%; display: block; opacity: .7; }
+    .dots a:hover, .dots a.active { background: var(--gold); opacity: 1; }
+    .contact { position: fixed; bottom: 22px; right: 28px; z-index: 5; color: var(--cream); font-size: 11px; letter-spacing: .12em; text-decoration: none; opacity: .88; }
+    .contact:hover { color: var(--gold); }
+    .scroll-hint { position: absolute; bottom: 28px; left: 7vw; color: rgba(255,250,240,.68); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+    @keyframes slowZoom { from { transform: scale(1.04); } to { transform: scale(1.13); } }
+    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 640px) {
+      .slide { padding: 32px 25px 60px; }
+      .slide::after { background: linear-gradient(90deg, rgba(4,24,19,.91), rgba(4,24,19,.62)); }
+      .brand { margin-bottom: 54px; }
+      .brand-name { font-size: 23px; }
+      .crown { width: 42px; height: 42px; }
+      .dots { right: 13px; }
+      .contact { right: 16px; bottom: 14px; font-size: 10px; }
+      .scroll-hint { left: 25px; bottom: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="dots" aria-label="Page sections">
+    <a href="#welcome" class="active" aria-label="Welcome"></a>
+    <a href="#menu" aria-label="Our biryani"></a>
+    <a href="#launch" aria-label="Coming soon"></a>
+  </nav>
+  <a class="contact" href="https://wa.me/917549126937" target="_blank" rel="noopener">WHATSAPP · 7549126937</a>
+
+  <main class="slides" id="slides">
+    <section class="slide" id="welcome" style="--photo:url('https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=2000&q=85')">
+      <div class="content">
+        <div class="brand">
+          <div class="crown">♛</div>
+          <div><div class="brand-name">ROYAL BIRYANI</div><span class="brand-sub">A royal taste is coming</span></div>
+        </div>
+        <p class="eyebrow">A new food experience for Ranchi</p>
+        <h1>Something<br><span class="gold">Royal</span> is<br>cooking.</h1>
+        <div class="rule"></div>
+        <p class="lead">Aromatic rice, rich flavours and the joy of a freshly prepared biryani. Get ready to welcome something special.</p>
+        <a class="cta" href="https://wa.me/917549126937?text=Hello%20Royal%20Biryani%2C%20please%20inform%20me%20when%20you%20launch." target="_blank" rel="noopener">Keep me informed</a>
+      </div>
+      <div class="scroll-hint">Scroll to discover <span class="gold">↓</span></div>
+    </section>
+
+    <section class="slide" id="menu" style="--photo:url('https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=2000&q=85')">
+      <div class="content">
+        <p class="eyebrow">Made for biryani lovers</p>
+        <h2>Two classics.<br><span class="gold">One royal</span><br>craving.</h2>
+        <p class="lead">From comforting chicken biryani to the indulgent richness of mutton biryani, our menu is being prepared with care.</p>
+        <div class="dish-line">
+          <span class="dish-pill">CHICKEN BIRYANI</span>
+          <span class="dish-pill">MUTTON BIRYANI</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="launch" style="--photo:url('https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=2000&q=85')">
+      <div class="content center">
+        <div class="final-mark"><span>♛</span> ROYAL BIRYANI</div>
+        <p class="eyebrow">Ranchi, get ready</p>
+        <h2>COMING<br><span class="gold">SOON.</span></h2>
+        <div class="rule"></div>
+        <p class="lead">Freshly prepared. Deliciously served. A little more royal, every time.</p>
+        <a class="cta" href="https://wa.me/917549126937?text=Hello%20Royal%20Biryani%2C%20please%20notify%20me%20when%20you%20launch." target="_blank" rel="noopener">Notify me on WhatsApp</a>
+        <p class="small-note">For updates: +91 75491 26937</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const slider = document.getElementById('slides');
+    const sections = [...document.querySelectorAll('.slide')];
+    const dots = [...document.querySelectorAll('.dots a')];
+    let current = 0;
+    let autoTimer;
+    let touchStartY = 0;
+
+    function showSlide(index) {
+      current = (index + sections.length) % sections.length;
+      sections[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+    }
+
+    function startAutoSlide() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => showSlide(current + 1), 6500);
+    }
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', event => {
+        event.preventDefault();
+        showSlide(i);
+        startAutoSlide();
+      });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          current = sections.indexOf(entry.target);
+          dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+        }
+      });
+    }, { root: slider, threshold: 0.6 });
+    sections.forEach(section => observer.observe(section));
+
+    // Pause while the visitor interacts, then resume the automatic presentation.
+    slider.addEventListener('wheel', startAutoSlide, { passive: true });
+    slider.addEventListener('touchstart', event => { touchStartY = event.touches[0].clientY; clearInterval(autoTimer); }, { passive: true });
+    slider.addEventListener('touchend', event => {
+      const movement = touchStartY - event.changedTouches[0].clientY;
+      if (Math.abs(movement) > 35) {
+        setTimeout(() => {
+          const nearest = sections.reduce((best, section, i) =>
+            Math.abs(section.getBoundingClientRect().top) < Math.abs(sections[best].getBoundingClientRect().top) ? i : best, 0);
+          current = nearest;
+          dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+          startAutoSlide();
+        }, 450);
+      } else startAutoSlide();
+    }, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) clearInterval(autoTimer);
+      else startAutoSlide();
+    });
+    startAutoSlide();
+  </script>
+</body>
+</html>
