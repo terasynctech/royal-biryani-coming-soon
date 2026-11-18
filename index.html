@@ -67,6 +67,21 @@ h2{font-size:clamp(54px,8vw,100px);max-width:800px}
 .menu-content .lead{margin-top:8px}
 @media(max-width:640px){.menu-photo{max-height:42vh;margin-top:16px}.menu-content .lead{font-size:14px}}
 
+
+.music-toggle{
+ position:fixed;top:22px;right:28px;z-index:12;
+ display:inline-flex;align-items:center;gap:9px;
+ padding:11px 15px;border:1px solid rgba(216,181,107,.8);
+ border-radius:30px;background:rgba(9,43,34,.82);backdrop-filter:blur(8px);
+ color:var(--cream);font:600 10px "DM Sans",sans-serif;
+ letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
+ transition:background .25s,color .25s,border-color .25s;
+}
+.music-toggle:hover{background:var(--gold);color:#10281f;border-color:var(--gold)}
+.music-toggle .music-icon{font-size:14px;color:var(--gold)}
+.music-toggle[aria-pressed="true"] .music-icon{color:#10281f}
+@media(max-width:640px){.music-toggle{top:14px;right:14px;padding:9px 12px;font-size:9px}}
+
 @media(max-width:640px){
 .slide{padding:34px 27px 70px}
 .slide::after{background:linear-gradient(90deg,rgba(3,22,17,.92),rgba(4,28,21,.62))}
@@ -80,6 +95,8 @@ h2{font-size:clamp(54px,8vw,100px);max-width:800px}
 </head>
 <body>
 <div class="progress" id="progress"></div>
+<button class="music-toggle" id="musicToggle" type="button" aria-pressed="false" aria-label="Turn background music on"><span class="music-icon" aria-hidden="true">♫</span><span id="musicLabel">Music Off</span></button>
+<audio id="backgroundMusic" src="assets/royal-biryani-instrumental.mp3" preload="none" loop></audio>
 <main class="deck" id="deck" aria-label="Royal Biryani presentation">
 <section class="slide active" style="--photo:url('https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=2000&q=85')" aria-label="Welcome">
 <div class="content">
@@ -130,7 +147,7 @@ h2{font-size:clamp(54px,8vw,100px);max-width:800px}
 <button class="dot active" aria-label="Slide 1"></button><button class="dot" aria-label="Slide 2"></button><button class="dot" aria-label="Slide 3"></button><button class="dot" aria-label="Slide 4"></button><button class="dot" aria-label="Slide 5"></button>
 </nav>
 <a class="whatsapp" href="https://wa.me/917549126937" target="_blank" rel="noopener">WHATSAPP · 7549126937 ↗</a>
-<div class="counter" id="counter">01 / 04</div>
+<div class="counter" id="counter">01 / 05</div>
 <script>
 (() => {
  const slides=[...document.querySelectorAll('.slide')];
@@ -138,6 +155,27 @@ h2{font-size:clamp(54px,8vw,100px);max-width:800px}
  const progress=document.getElementById('progress');
  const counter=document.getElementById('counter');
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const music=document.getElementById('backgroundMusic');
+ const musicToggle=document.getElementById('musicToggle');
+ const musicLabel=document.getElementById('musicLabel');
+ musicToggle.addEventListener('click',async()=>{
+   if(music.paused){
+     try{
+       await music.play();
+       musicToggle.setAttribute('aria-pressed','true');
+       musicToggle.setAttribute('aria-label','Turn background music off');
+       musicLabel.textContent='Music On';
+     }catch(error){
+       musicLabel.textContent='Tap to Play';
+     }
+   }else{
+     music.pause();
+     musicToggle.setAttribute('aria-pressed','false');
+     musicToggle.setAttribute('aria-label','Turn background music on');
+     musicLabel.textContent='Music Off';
+   }
+ });
+
  const HOLD=5000;
  let current=0,started=Date.now(),timer=null,raf=null,paused=false;
  function render(i){
